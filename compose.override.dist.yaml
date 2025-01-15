@@ -1,0 +1,12 @@
+services:
+    phpnginx:
+        ports:
+            - 80:80
+
+    postgres:
+        ports:
+            - 5432:5432
+    
+    frontend:
+        ports:
+            - 5174:5174

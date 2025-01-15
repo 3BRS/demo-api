@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT="$(dirname "$DIR")"
+# some value to avoid 'invalid environment variable: ' docker compose error
+APP_ENV_DEFINITION='EMPTY_NOTHINGNESS'
+if [ -n "${APP_ENV:-}" ]; then
+  APP_ENV_DEFINITION="APP_ENV=${APP_ENV}"
+fi
+
+source "${DIR}/_tty.sh"
+
+mkdir -p "$HOME/.composer/cache"
+
+if [ "$(docker compose ps phpnginx | grep --count Up)" -gt 0 ]; then
+	docker_compose_exec \
+		--workdir="/src${PWD:${#PROJECT_ROOT}}" \
+		--user=application \
+		--env="${APP_ENV_DEFINITION}" \
+		phpnginx composer "$@"
+else
+	docker_compose_run \
+		--entrypoint=php \
+		--workdir="/src${PWD:${#PROJECT_ROOT}}" \
+		--user=application \
+		phpnginx /usr/local/bin/composer "$@"
+fi

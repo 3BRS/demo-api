@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT="$(dirname "$DIR")"
+
+source "${DIR}/_tty.sh"
+
+if [ "$(docker compose ps frontend | grep --count Up)" -gt 0 ]; then
+	docker_compose_exec \
+		--workdir="/src${PWD:${#PROJECT_ROOT}}" \
+		--user=node \
+		frontend yarn "$@"
+else
+	docker_compose_run \
+		--entrypoint=yarn \
+		--workdir="/src${PWD:${#PROJECT_ROOT}}" \
+		--user=node \
+		frontend "$@"
+fi

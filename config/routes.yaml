@@ -1,0 +1,11 @@
+customers_index:
+    path: /
+    controller: App\Controller\CustomerController::index
+
+customers_show:
+    path: /show/{id}
+    controller: App\Controller\CustomerController::show
+
+customers_new:
+    path: /new
+    controller: App\Controller\CustomerController::new

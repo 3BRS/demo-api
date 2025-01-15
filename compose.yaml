@@ -1,0 +1,37 @@
+services:
+    frontend:
+        build: ./docker/node
+        restart: on-failure
+        depends_on:
+            - phpnginx
+        working_dir: /src
+        volumes:
+            - .:/src:cached
+        entrypoint: /bin/sh
+        tty: true
+
+    phpnginx:
+        build: ./docker/php
+        restart: on-failure
+        depends_on:
+            - postgres
+        working_dir: /src
+        env_file: .env
+        volumes:
+            - .:/src:cached
+            - ./deploy/php.ini:/usr/local/etc/php/php.ini:delegated,ro
+
+    postgres:
+        image: postgres:16-alpine
+        restart: on-failure
+        environment:
+            POSTGRES_DB: symfony
+            POSTGRES_USER: symfony
+            POSTGRES_PASSWORD: symfony
+        command: postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=off -c max_locks_per_transaction=256 -c max_connections=200
+        volumes:
+            - pgsql-data:/var/lib/postgresql/data:delegated
+
+volumes:
+    pgsql-data: ~
+    rabbitmq-data: ~
