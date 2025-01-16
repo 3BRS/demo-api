@@ -1,0 +1,60 @@
+name: Run Tests
+
+# Controls when the workflow will run
+on:
+    # Triggers the workflow on push or pull request events but only for the main branch
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+    workflow_call:
+
+jobs:
+    run-tests:
+        # The type of runner that the job will run on
+        runs-on: ubuntu-latest
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+            -   uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+
+            -   name: Setup test environment
+                run: .github/test-setup.sh
+
+            -   name: Start docker
+                run: docker compose --file compose.yaml --file compose.test.yaml up --detach
+
+            -   name: Install dependencies
+                run: docker compose exec --no-TTY phpnginx bash -c '
+                    composer install --no-progress --no-interaction
+                    '
+
+#            -   name: Install assets
+#                run: docker compose run --rm --interactive=false frontend -c '
+#                    yarn install &&
+#                    yarn build
+#                    '
+
+#            -   name: Create database
+#                run: docker compose exec --no-TTY phpnginx bash -c '
+#                    bin/console --env=test doctrine:database:drop --force --if-exists &&
+#                    bin/console --env=test doctrine:database:create
+#                    '
+
+#            -   name: Yarn check
+#                run: docker compose exec --no-TTY frontend bin/frontendCheck.sh
+
+            -   name: ECS
+                run: docker compose exec --no-TTY phpnginx bin/ecs.sh
+
+            -   name: Symfony lint
+                run: docker compose exec --no-TTY phpnginx bin/symfony-lint.sh
+
+            -   name: PHPStan
+                run: docker compose exec --no-TTY phpnginx bin/phpstan.sh
