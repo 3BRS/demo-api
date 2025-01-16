@@ -43,10 +43,10 @@ jobs:
 
             -   name: Install assets svelte UI
                 run: docker compose run --rm --interactive=false frontend -c '
-                    cd svelteUi && \
-                    yarn install && \
-                    yarn build && \
-                    yarn run lint && \
+                    cd svelteUi &&
+                    yarn install &&
+                    yarn build &&
+                    yarn run lint &&
                     yarn run check
                     '
 
