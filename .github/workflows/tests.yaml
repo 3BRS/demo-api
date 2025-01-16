@@ -35,20 +35,20 @@ jobs:
                     composer install --no-progress --no-interaction
                     '
 
-#            -   name: Install assets
-#                run: docker compose run --rm --interactive=false frontend -c '
-#                    yarn install &&
-#                    yarn build
-#                    '
+            -   name: Install assets symfony
+                run: docker compose run --rm --interactive=false frontend -c '
+                    yarn install &&
+                    yarn build
+                    '
 
-#            -   name: Create database
-#                run: docker compose exec --no-TTY phpnginx bash -c '
-#                    bin/console --env=test doctrine:database:drop --force --if-exists &&
-#                    bin/console --env=test doctrine:database:create
-#                    '
-
-#            -   name: Yarn check
-#                run: docker compose exec --no-TTY frontend bin/frontendCheck.sh
+            -   name: Install assets svelte UI
+                run: docker compose run --rm --interactive=false frontend -c '
+                    cd svelteUi &&
+                    yarn install &&
+                    yarn build &&
+                    yarn run lint &&
+                    yarn run check
+                    '
 
             -   name: ECS
                 run: docker compose exec --no-TTY phpnginx bin/ecs.sh
