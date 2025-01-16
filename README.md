@@ -6,6 +6,7 @@ $ cp .envrc.dist .envrc
 $ direnv allow # install direnv https://direnv.net/ if you don't have it
 $ cp compose.override.dist.yaml compose.override.yaml
 $ docker compose up -d
+$ composer install
 $ bin/console doctrine:migrations:migrate
 $ bin/console assets:install
 $ yarn install
