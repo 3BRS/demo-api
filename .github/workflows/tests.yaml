@@ -35,14 +35,20 @@ jobs:
                     composer install --no-progress --no-interaction
                     '
 
-            -   name: Install assets
-                run: docker compose run --rm --interactive=false phpnginx -c '
+            -   name: Install assets symfony
+                run: docker compose run --rm --interactive=false frontend -c '
                     yarn install &&
                     yarn build
                     '
 
-            -   name: Yarn check
-                run: docker compose exec --no-TTY phpnginx bin/frontendCheck.sh
+            -   name: Install assets svelte UI
+                run: docker compose run --rm --interactive=false frontend -c '
+                    cd svelteUi && \
+                    yarn install && \
+                    yarn build && \
+                    yarn run lint && \
+                    yarn run check
+                    '
 
             -   name: ECS
                 run: docker compose exec --no-TTY phpnginx bin/ecs.sh
