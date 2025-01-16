@@ -18,6 +18,7 @@ open http://127.0.0.1 in your browser
 
 ## API documentation
 http://127.0.0.1/api
+
 http://127.0.0.1/api/docs?ui=re_doc
 
 ## Tests
@@ -29,3 +30,6 @@ $ bin/phpstan.sh
 $ bin/symfony-lint.sh
 
 ```
+
+## Svelte frontend
+[README.md here](svelteUi/README.md)
