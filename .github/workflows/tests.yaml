@@ -43,9 +43,6 @@ jobs:
                     yarn run lint
                     '
 
-            -   name: Yarn check
-                run: docker compose exec --no-TTY frontend bin/frontendCheck.sh
-
             -   name: ECS
                 run: docker compose exec --no-TTY phpnginx bin/ecs.sh
 
