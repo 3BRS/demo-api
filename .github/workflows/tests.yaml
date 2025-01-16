@@ -38,7 +38,9 @@ jobs:
             -   name: Install assets
                 run: docker compose run --rm --interactive=false frontend -c '
                     yarn install &&
-                    yarn build
+                    yarn build &&
+                    yarn run check &&
+                    yarn run lint
                     '
 
             -   name: Yarn check
