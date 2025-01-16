@@ -18,12 +18,11 @@ use Twig\Environment;
 readonly class CustomerController
 {
     public function __construct(
-        private Environment            $environment,
-        private RouterInterface        $router,
-        private FormFactoryInterface   $formFactory,
+        private Environment $environment,
+        private RouterInterface $router,
+        private FormFactoryInterface $formFactory,
         private EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
     }
 
     public function index(Request $request): Response
