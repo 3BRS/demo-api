@@ -2,6 +2,7 @@
 
 ## Installation
 ```bash
+$ cp .env.dist .env
 $ cp .envrc.dist .envrc
 $ direnv allow # install direnv https://direnv.net/ if you don't have it
 $ cp compose.override.dist.yaml compose.override.yaml
