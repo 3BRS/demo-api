@@ -16,14 +16,22 @@
 	});
 </script>
 
-{#if customer === undefined}
-	<p>Loading...</p>
-{:else}
-	<h1>Customer {customer.fullName}</h1>
+<div class="container">
+	{#if customer === undefined}
+		<p>Loading...</p>
+	{:else}
+		<div class="pt-5 text-center">
+			<h1>Customer {customer.fullName}</h1>
+		</div>
 
-	<AddressDetail address={customer.addressHome} title="Home address" />
-	<AddressDetail address={customer.addressBilling} title="Billing address" />
-	<AddressDetail address={customer.addressPostal} title="Postal address" />
-{/if}
+		<AddressDetail address={customer.addressHome} title="Home address" />
+		<AddressDetail address={customer.addressBilling} title="Billing address" />
+		<AddressDetail address={customer.addressPostal} title="Postal address" />
+	{/if}
 
-<a href="/">Back to list</a>
+	<a href="/">Back to list</a>
+</div>
+
+<style lang="sass">
+</style>
+
