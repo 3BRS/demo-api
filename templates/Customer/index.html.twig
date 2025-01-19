@@ -1,30 +1,67 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Customers
+{% endblock %}
+
 {% block body %}
-    <div>
-        <a href="{{ path('customers_new') }}">Create new</a>
+    <div class="container">
+        {#intro div#}
+        <div class="py-5 text-center">
+            <h2>Business Customers</h2>
+            <p class="lead">Your customers are the heart of your business, and we just help you keep track of them. Our database makes it easy to organize, manage, and grow your relationships with your customers with ease.</p>
+        </div>
+        
+        {#customer table div#}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>
+                        <a href="{{ path('customers_new') }}" class="btn btn-sm btn-outline-success">Add Customer</a>
+                    </th>
+                </thead>
+
+                <tbody>
+                    {% for customer in customers %}
+                        <tr>
+                            <td>
+                                {{ customer.firstName }}
+                            </td>
+                            <td>
+                                {{ customer.lastName }}
+                            </td>
+                            <td>
+                                {{ customer.email }}
+                            </td>
+                            <td>
+                                {{ customer.phone }}
+                            </td>
+                            <td>
+                                {{ customer.dateOfBirth|date('Y-m-d') }}
+                            </td>
+                            <td>
+                                <a href="{{ path('customers_show', { 'id': customer.id }) }}" class="btn btn-sm btn-outline-dark">Details</a>
+                            </td>
+                        </tr>     
+                    {% else %}
+                        No customers found
+                    {% endfor %}
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            Total Customers: {{ customers|length }}
+                        </td>
+                    </tr>
+                </tfoot>
+                
+            </table>
+        </div>
     </div>
-    <table>
-        {% for customer in customers %}
-            <tr>
-                <td>
-                    {{ customer.firstName }}
-                </td>
-                <td>
-                    {{ customer.lastName }}
-                </td>
-                <td>
-                    {{ customer.email }}
-                </td>
-                <td>
-                    {{ customer.phone }}
-                </td>
-                <td>
-                    {{ customer.dateOfBirth|date('Y-m-d') }}
-                </td>
-            </tr>
-        {% else %}
-            No customers found
-        {% endfor %}
-    </table>
 {% endblock %}

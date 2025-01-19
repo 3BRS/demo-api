@@ -1,5 +1,161 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+Customer Details
+{% endblock %}
+
 {% block body %}
-    {{ dump(customer) }}
+<div class="py-5 text-center">
+    <h2>Customer Details</h2>
+</div>
+
+<div class="container">
+
+    {#Basic Information Section#}
+    <h3>
+        <i class="bi bi-person-fill"></i>
+        Basic Information
+    </h3>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h6>First Name</h6>
+            <p class="text-break">{{customer.firstName}}</p>
+        </div>
+
+        <div class="col-md-4">
+            <h6>Last Name</h6>
+            <p class="text-break">{{customer.lastName}}</p>
+        </div>
+
+        <div class="col-md-4">
+            <h6>Date of Birth</h6>
+            {{ customer.dateOfBirth|date('Y-m-d') }}
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h6>Email</h6>
+            <p class="text-break">{{customer.email}}</p>  
+        </div>
+
+        <div class="col-md-4">
+            <h6>Phone Number</h6>
+            {{customer.phone}}
+        </div>
+    </div>
+    <hr class="my-4">
+    
+    {#Home Address Section#}
+    {% if customer.addressHome %}
+        <h3 class="mt-4">
+            <i class="bi bi-house-door-fill"></i>
+            Home Address
+        </h3>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <h6>Building</h6>
+                <p class="text-break">{{customer.addressHome.building | default('N/A')}}</p>
+            </div>
+    
+            <div class="col-md-4">
+                <h6>Street</h6>
+                <p class="text-break">{{customer.addressHome.street | default('N/A')}}</p>
+            </div>
+    
+            <div class="col-md-4">
+                <h6>Postcode</h6>
+                <p class="text-break">{{customer.addressHome.postcode | default('N/A')}}</p>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h6>City</h6>
+                    <p class="text-break">{{customer.addressHome.city | default('N/A')}}</p> 
+                </div>
+        
+                <div class="col-md-4">
+                    <h6>Country</h6>
+                    <p class="text-break">{{customer.addressHome.country.name| default('N/A')}}</p>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+    {% endif %}
+
+    {#Postal Address Section#}
+    {% if customer.addressPostal %}
+        <h3 class="mt-4">
+            <i class="bi bi-mailbox2-flag"></i>
+            Postal Address
+        </h3>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <h6>Building</h6>
+                <p class="text-break">{{customer.addressPostal.building | default('N/A')}}</p>
+            </div>
+    
+            <div class="col-md-4">
+                <h6>Street</h6>
+                <p class="text-break">{{customer.addressPostal.street | default('N/A')}}</p>
+            </div>
+    
+            <div class="col-md-4">
+                <h6>Postcode</h6>
+                <p class="text-break">{{customer.addressPostal.postcode | default('N/A')}}</p>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h6>City</h6>
+                    <p class="text-break">{{customer.addressPostal.city | default('N/A')}}</p> 
+                </div>
+        
+                <div class="col-md-4">
+                    <h6>Country</h6>
+                    <p class="text-break">{{customer.addressPostal.country.name| default('N/A')}}</p>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+    {% endif %}
+
+    {#Billing Address Section#}
+    {% if customer.addressBilling %}
+        <h3 class="mt-4">
+            <i class="bi bi-receipt"></i>
+            Billing Address
+        </h3>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <h6>Building</h6>
+                <p class="text-break">{{customer.addressBilling.building | default('N/A')}}</p>
+            </div>
+    
+            <div class="col-md-4">
+                <h6>Street</h6>
+                <p class="text-break">{{customer.addressBilling.street | default('N/A')}}</p>
+            </div>
+    
+            <div class="col-md-4">
+                <h6>Postcode</h6>
+                <p class="text-break">{{customer.addressBilling.postcode | default('N/A')}}</p>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h6>City</h6>
+                    <p class="text-break">{{customer.addressBilling.city | default('N/A')}}</p> 
+                </div>
+        
+                <div class="col-md-4">
+                    <h6>Country</h6>
+                    <p class="text-break">{{customer.addressBilling.country.name| default('N/A')}}</p>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+    {% endif %}
+</div>
 {% endblock %}
