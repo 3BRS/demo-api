@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import AddressDetail from '$components/AddressDetail.svelte';
-	import Tabs from '$components/Tabs.svelte';
+
 	let customer = undefined as undefined | CustomerType;
 
 	let tabNames = ['Basic Info', 'Home Address', 'Billing Address', 'Postal Address'];
@@ -29,7 +29,61 @@
 		<h2>Customer Details</h2>
 	</div>
 
-	<Tabs {tabNames} {activeTab} on:tabChange={tabChange} />
+	<div class="mb-3 border">
+		<ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link active"
+					id="pills-basic-tab"
+					data-bs-toggle="pill"
+					data-bs-target="#pills-basic"
+					type="button"
+					role="tab"
+					aria-controls="pills-basic"
+					aria-selected="true">Basic Info</button
+				>
+			</li>
+
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					id="pills-home-tab"
+					data-bs-toggle="pill"
+					data-bs-target="#pills-home, #pills-home-none"
+					type="button"
+					role="tab"
+					aria-controls="pills-home"
+					aria-selected="true">Home Address</button
+				>
+			</li>
+
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					id="pills-billing-tab"
+					data-bs-toggle="pill"
+					data-bs-target="#pills-billing, #pills-billing-none"
+					type="button"
+					role="tab"
+					aria-controls="pills-billing"
+					aria-selected="true">Billing Address</button
+				>
+			</li>
+
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					id="pills-postal-tab"
+					data-bs-toggle="pill"
+					data-bs-target="#pills-postal, #pills-postal-none"
+					type="button"
+					role="tab"
+					aria-controls="pills-postal"
+					aria-selected="true">Postal Address</button
+				>
+			</li>
+		</ul>
+	</div>
 
 	{#if customer === undefined}
 		<div class="row mt-5">
@@ -40,72 +94,124 @@
 		<div class="row mt-2 text-center">
 			<h6>Loading</h6>
 		</div>
-	{:else if activeTab === 'Basic Info'}
-		<div class="row mt-5">
-			<div class="col-md-4">
-				<h6>First Name</h6>
-				<p class="text-break">
-					{customer.firstName}
-				</p>
-			</div>
+	{:else}
+		<div class="tab-content" id="pills-tabContent">
+			<div
+				class="tab-pane fade show active"
+				id="pills-basic"
+				role="tabpanel"
+				aria-labelledby="pills-basic-tab"
+				tabindex="0"
+			>
+				<div class="row mt-5">
+					<div class="col-md-4">
+						<h6>First Name</h6>
+						<p class="text-break">
+							{customer.firstName}
+						</p>
+					</div>
 
-			<div class="col-md-4">
-				<h6>Last Name</h6>
-				<p class="text-break">
-					{customer.lastName}
-				</p>
-			</div>
+					<div class="col-md-4">
+						<h6>Last Name</h6>
+						<p class="text-break">
+							{customer.lastName}
+						</p>
+					</div>
 
-			<div class="col-md-4">
-				<h6>Date of Birth</h6>
-				<p class="text-break">
-					{customer.dateOfBirth}
-				</p>
-			</div>
-
-			<div class="row mt-4">
-				<div class="col-md-4">
-					<h6>Email</h6>
-					<p class="text-break">
-						{customer.email}
-					</p>
+					<div class="col-md-4">
+						<h6>Date of Birth</h6>
+						<p class="text-break">
+							{customer.dateOfBirth}
+						</p>
+					</div>
 				</div>
 
-				<div class="col-md-4">
-					<h6>Phone Number</h6>
-					<p class="text-break">
-						{customer.phone}
-					</p>
+				<div class="row mt-4">
+					<div class="col-md-4">
+						<h6>Email</h6>
+						<p class="text-break">
+							{customer.email}
+						</p>
+					</div>
+
+					<div class="col-md-4">
+						<h6>Phone Number</h6>
+						<p class="text-break">
+							{customer.phone}
+						</p>
+					</div>
 				</div>
 			</div>
+
+			{#if customer.addressHome}
+				<div
+					class="tab-pane fade"
+					id="pills-home"
+					role="tabpanel"
+					aria-labelledby="pills-home-tab"
+					tabindex="0"
+				>
+					<AddressDetail address={customer.addressHome} title="Home address" />
+				</div>
+			{:else}
+				<div
+					class="mt-5 justify-content-center align-items-center text-center tab-pane"
+					id="pills-home-none"
+					role="tabpanel"
+					aria-labelledby="pills-home-tab"
+					tabindex="0"
+				>
+					<i class="bi bi-house-x-fill display-1" />
+					<p class="mt-3 fs-4 text-secondary">No Address Found</p>
+				</div>
+			{/if}
+
+			{#if customer.addressBilling}
+				<div
+					class="tab-pane"
+					id="pills-billing"
+					role="tabpanel"
+					aria-labelledby="pills-billing-tab"
+					tabindex="0"
+				>
+					<AddressDetail address={customer.addressBilling} title="Billing address" />
+				</div>
+			{:else}
+				<div
+					class="mt-5 justify-content-center align-items-center text-center tab-pane"
+					id="pills-billing-none"
+					role="tabpanel"
+					aria-labelledby="pills-billing-tab"
+					tabindex="0"
+				>
+					<i class="bi bi-house-x-fill display-1" />
+					<p class="mt-3 fs-4 text-secondary">No Address Found</p>
+				</div>
+			{/if}
+
+			{#if customer.addressPostal}
+				<div
+					class="tab-pane"
+					id="pills-postal"
+					role="tabpanel"
+					aria-labelledby="pills-postal-tab"
+					tabindex="0"
+				>
+					<AddressDetail address={customer.addressPostal} title="Postal address" />
+				</div>
+			{:else}
+				<div
+					class="mt-5 justify-content-center align-items-center text-center tab-pane"
+					id="pills-postal-none"
+					role="tabpanel"
+					aria-labelledby="pills-postal-tab"
+					tabindex="0"
+				>
+					<i class="bi bi-house-x-fill display-1" />
+					<p class="mt-3 fs-4 text-secondary">No Address Found</p>
+				</div>
+			{/if}
 		</div>
-	{:else if activeTab === 'Home Address'}
-		{#if customer.addressHome}
-			<AddressDetail address={customer.addressHome} title="Home address" />
-		{:else}
-			<div class="mt-5 justify-content-center align-items-center text-center">
-				<i class="bi bi-house-x-fill display-1" />
-				<p class="mt-3 fs-4 text-secondary">No Address Found</p>
-			</div>
-		{/if}
-	{:else if activeTab === 'Billing Address'}
-		{#if customer.addressBilling}
-			<AddressDetail address={customer.addressBilling} title="Billing address" />
-		{:else}
-			<div class="mt-5 justify-content-center align-items-center text-center">
-				<i class="bi bi-house-x-fill display-1" />
-				<p class="mt-3 fs-4 text-secondary">No Address Found</p>
-			</div>
-		{/if}
-	{:else if activeTab === 'Postal Address'}
-		{#if customer.addressPostal}
-			<AddressDetail address={customer.addressPostal} title="Postal address" />
-		{:else}
-			<div class="mt-5 justify-content-center align-items-center text-center">
-				<i class="bi bi-house-x-fill display-1" />
-				<p class="mt-3 fs-4 text-secondary">No Address Found</p>
-			</div>
-		{/if}
 	{/if}
 
 	{#if customer !== undefined}
