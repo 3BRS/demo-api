@@ -17,6 +17,35 @@
 		addressBilling: { ...emptyAddress }
 	};
 
+	let homeCountryRequired = false;
+	let postalCountryRequired = false;
+	let billingCountryRequired = false;
+
+	//update required status based on other fields
+	$: {
+		homeCountryRequired =
+			addressFields.addressHome.building.trim() != '' ||
+			addressFields.addressHome.street.trim() != '' ||
+			addressFields.addressHome.city.trim() != '' ||
+			addressFields.addressHome.postcode.trim() != ''
+	}
+
+	$: {
+		postalCountryRequired =
+			addressFields.addressPostal.building.trim() != '' ||
+			addressFields.addressPostal.street.trim() != '' ||
+			addressFields.addressPostal.city.trim() != '' ||
+			addressFields.addressPostal.postcode.trim() != ''
+	}
+
+	$: {
+		billingCountryRequired =
+			addressFields.addressBilling.building.trim() != '' ||
+			addressFields.addressBilling.street.trim() != '' ||
+			addressFields.addressBilling.city.trim() != '' ||
+			addressFields.addressBilling.postcode.trim() != ''
+	}
+
 	onMount(() => {
 		fetch(`${import.meta.env.VITE_API_URL}/customers/${$page.params.id}`, {
 			method: 'GET'
@@ -354,6 +383,7 @@
 							<select
 								id="inputCountryHome"
 								class="form-select"
+								required = {homeCountryRequired}
 								bind:value={addressFields.addressHome.country}
 							>
 								<option value="" disabled selected>Select a country</option>
@@ -362,7 +392,7 @@
 								<option value="FR">FR</option>
 								<option value="DE">DE</option>
 								<option value="AT">AT</option>
-								<option value="">none</option>
+								<option value="" hidden={homeCountryRequired}>none</option>
 							</select>
 						</div>
 					</div>
@@ -428,6 +458,7 @@
 							<select
 								id="inputCountryBilling"
 								class="form-select"
+								required={billingCountryRequired}
 								bind:value={addressFields.addressBilling.country}
 							>
 								<option value="" disabled selected>Select a country</option>
@@ -436,7 +467,7 @@
 								<option value="FR">FR</option>
 								<option value="DE">DE</option>
 								<option value="AT">AT</option>
-								<option value="">none</option>
+								<option value="" hidden={billingCountryRequired}>none</option>
 							</select>
 						</div>
 					</div>
@@ -502,6 +533,7 @@
 							<select
 								id="inputCountryPostal"
 								class="form-select"
+								required={postalCountryRequired}
 								bind:value={addressFields.addressPostal.country}
 							>
 								<option value="" disabled selected>Select a country</option>
@@ -510,7 +542,7 @@
 								<option value="FR">FR</option>
 								<option value="DE">DE</option>
 								<option value="AT">AT</option>
-								<option value="">none</option>
+								<option value="" hidden={postalCountryRequired}>none</option>
 							</select>
 						</div>
 					</div>
