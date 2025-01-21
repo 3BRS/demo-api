@@ -12,9 +12,9 @@
 			response.json().then((data) => {
 				customer = data;
 				//format date for display
-				if(customer){
+				if (customer) {
 					const date = new Date(customer.dateOfBirth);
-					customer.dateOfBirth = date.toISOString(). split('T')[0]
+					customer.dateOfBirth = date.toISOString().split('T')[0];
 				}
 			});
 		});
