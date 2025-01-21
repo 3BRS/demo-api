@@ -5,20 +5,17 @@
 
 	let customer = undefined as undefined | CustomerType;
 
-	let tabNames = ['Basic Info', 'Home Address', 'Billing Address', 'Postal Address'];
-	let activeTab = 'Basic Info';
-
-	const tabChange = (e: CustomEvent) => {
-		activeTab = e.detail;
-		console.log(e.detail);
-	};
-
 	onMount(() => {
 		fetch(`${import.meta.env.VITE_API_URL}/customers/${$page.params.id}`, {
 			method: 'GET'
 		}).then((response) => {
 			response.json().then((data) => {
 				customer = data;
+				//format date for display
+				if(customer){
+					const date = new Date(customer.dateOfBirth);
+					customer.dateOfBirth = date.toISOString(). split('T')[0]
+				}
 			});
 		});
 	});
@@ -29,7 +26,7 @@
 		<h2>Customer Details</h2>
 	</div>
 
-	<div class="mb-3 border">
+	<div class="mb-3 border rounded">
 		<ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
 			<li class="nav-item" role="presentation">
 				<button
@@ -155,7 +152,7 @@
 				</div>
 			{:else}
 				<div
-					class="mt-5 justify-content-center align-items-center text-center tab-pane"
+					class="mt-5 justify-content-center align-items-center text-center tab-pane fade"
 					id="pills-home-none"
 					role="tabpanel"
 					aria-labelledby="pills-home-tab"
@@ -168,7 +165,7 @@
 
 			{#if customer.addressBilling}
 				<div
-					class="tab-pane"
+					class="tab-pane fade"
 					id="pills-billing"
 					role="tabpanel"
 					aria-labelledby="pills-billing-tab"
@@ -178,7 +175,7 @@
 				</div>
 			{:else}
 				<div
-					class="mt-5 justify-content-center align-items-center text-center tab-pane"
+					class="mt-5 justify-content-center align-items-center text-center tab-pane fade"
 					id="pills-billing-none"
 					role="tabpanel"
 					aria-labelledby="pills-billing-tab"
@@ -191,7 +188,7 @@
 
 			{#if customer.addressPostal}
 				<div
-					class="tab-pane"
+					class="tab-pane fade"
 					id="pills-postal"
 					role="tabpanel"
 					aria-labelledby="pills-postal-tab"
@@ -201,7 +198,7 @@
 				</div>
 			{:else}
 				<div
-					class="mt-5 justify-content-center align-items-center text-center tab-pane"
+					class="mt-5 justify-content-center align-items-center text-center tab-pane fade"
 					id="pills-postal-none"
 					role="tabpanel"
 					aria-labelledby="pills-postal-tab"

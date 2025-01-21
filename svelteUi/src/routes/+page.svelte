@@ -67,6 +67,14 @@
 						</tr>
 					{/each}
 				</tbody>
+
+				<tfoot>
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            Total Customers: { customers.length }
+                        </td>
+                    </tr>
+                </tfoot>
 			</table>
 		</div>
 	{/if}

@@ -19,3 +19,8 @@
 </nav>
 
 <slot />
+
+<footer class="text-muted text-center text-small my-5 pt-5">
+	<p class="mb-1">&copy; Yasser Sheweta - Sample Project</p>
+</footer>
+
