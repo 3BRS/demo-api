@@ -25,6 +25,7 @@
 		</p>
 	</div>
 
+	<!-- Loading / Undefined Case -->
 	{#if customers === undefined}
 		<div class="row mt-5">
 			<div class="spinner-border mx-auto" role="status">
@@ -34,6 +35,8 @@
 		<div class="row mt-2 text-center">
 			<h6>Loading</h6>
 		</div>
+
+		<!-- No Customers Case -->
 	{:else if Array.isArray(customers) && customers.length === 0}
 		<div
 			class="mt-5 justify-content-center align-items-center text-center"
@@ -46,6 +49,8 @@
 			<p class="mt-2 fs-4 text-secondary">No Customers Found</p>
 			<a href={'/create'} class="btn btn-sm btn-success mt-3">Add Customer</a>
 		</div>
+
+		<!-- Non-empty Customers Case -->
 	{:else}
 		<div class="table-responsive">
 			<table class="table">

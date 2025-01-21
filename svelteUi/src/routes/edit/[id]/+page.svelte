@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import AddressForm from '$components/AddressForm.svelte';
+	import BasicForm from '$components/BasicForm.svelte';
 
 	let customer = undefined as undefined | CustomerType;
 
@@ -22,29 +24,23 @@
 	let billingCountryRequired = false;
 
 	//update required status based on other fields
-	$: {
-		homeCountryRequired =
-			addressFields.addressHome.building.trim() != '' ||
-			addressFields.addressHome.street.trim() != '' ||
-			addressFields.addressHome.city.trim() != '' ||
-			addressFields.addressHome.postcode.trim() != ''
-	}
+	$: homeCountryRequired =
+		addressFields.addressHome.building.trim() != '' ||
+		addressFields.addressHome.street.trim() != '' ||
+		addressFields.addressHome.city.trim() != '' ||
+		addressFields.addressHome.postcode.trim() != '';
 
-	$: {
-		postalCountryRequired =
-			addressFields.addressPostal.building.trim() != '' ||
-			addressFields.addressPostal.street.trim() != '' ||
-			addressFields.addressPostal.city.trim() != '' ||
-			addressFields.addressPostal.postcode.trim() != ''
-	}
+	$: postalCountryRequired =
+		addressFields.addressPostal.building.trim() != '' ||
+		addressFields.addressPostal.street.trim() != '' ||
+		addressFields.addressPostal.city.trim() != '' ||
+		addressFields.addressPostal.postcode.trim() != '';
 
-	$: {
-		billingCountryRequired =
-			addressFields.addressBilling.building.trim() != '' ||
-			addressFields.addressBilling.street.trim() != '' ||
-			addressFields.addressBilling.city.trim() != '' ||
-			addressFields.addressBilling.postcode.trim() != ''
-	}
+	$: billingCountryRequired =
+		addressFields.addressBilling.building.trim() != '' ||
+		addressFields.addressBilling.street.trim() != '' ||
+		addressFields.addressBilling.city.trim() != '' ||
+		addressFields.addressBilling.postcode.trim() != '';
 
 	onMount(() => {
 		fetch(`${import.meta.env.VITE_API_URL}/customers/${$page.params.id}`, {
@@ -260,68 +256,7 @@
 				aria-labelledby="pills-basic-tab"
 				tabindex="0"
 			>
-				<div class="row mt-5">
-					<div class="col-md-4">
-						<label for="firstName" class="form-label">First Name</label>
-						<input
-							type="text"
-							id="firstName"
-							class="form-control"
-							maxlength="255"
-							bind:value={basicFields.firstName}
-							required
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="lastName" class="form-label">Last Name</label>
-						<input
-							type="text"
-							id="lastName"
-							class="form-control"
-							maxlength="255"
-							bind:value={basicFields.lastName}
-							required
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="email" class="form-label">Email</label>
-						<input
-							type="email"
-							id="email"
-							class="form-control"
-							maxlength="255"
-							bind:value={basicFields.email}
-							required
-						/>
-					</div>
-
-					<div class="row mt-4">
-						<div class="col-md-4">
-							<label for="phone" class="form-label">Phone</label>
-							<input
-								type="text"
-								id="phone"
-								class="form-control"
-								maxlength="255"
-								bind:value={basicFields.phone}
-								required
-							/>
-						</div>
-
-						<div class="col-md-4">
-							<label for="dateOfBirth" class="form-label">Date of Birth:</label>
-							<input
-								type="date"
-								id="dateOfBirth"
-								class="form-control"
-								bind:value={basicFields.dateOfBirth}
-								required
-							/>
-						</div>
-					</div>
-				</div>
+				<BasicForm bind:basicFields />
 			</div>
 
 			<!-- Home Address -->
@@ -332,71 +267,11 @@
 				aria-labelledby="pills-home-tab"
 				tabindex="0"
 			>
-				<div class="row mt-5">
-					<div class="col-md-4">
-						<label for="inputBuildingHome" class="form-label">Building</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputBuildingHome"
-							maxlength="255"
-							bind:value={addressFields.addressHome.building}
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="inputStreetHome" class="form-label">Street</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputStreetHome"
-							maxlength="255"
-							bind:value={addressFields.addressHome.street}
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="inputPostcodeHome" class="form-label">Postcode</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputPostcodeHome"
-							maxlength="8"
-							bind:value={addressFields.addressHome.postcode}
-						/>
-					</div>
-
-					<div class="row mt-4">
-						<div class="col-md-4">
-							<label for="inputCityHome" class="form-label">City</label>
-							<input
-								type="text"
-								class="form-control"
-								id="inputCityHome"
-								maxlength="255"
-								bind:value={addressFields.addressHome.city}
-							/>
-						</div>
-
-						<div class="col-md-4">
-							<label for="inputCountryHome" class="form-label">Country</label>
-							<select
-								id="inputCountryHome"
-								class="form-select"
-								required = {homeCountryRequired}
-								bind:value={addressFields.addressHome.country}
-							>
-								<option value="" disabled selected>Select a country</option>
-								<option value="GB">GB</option>
-								<option value="CZ">CZ</option>
-								<option value="FR">FR</option>
-								<option value="DE">DE</option>
-								<option value="AT">AT</option>
-								<option value="" hidden={homeCountryRequired}>none</option>
-							</select>
-						</div>
-					</div>
-				</div>
+				<AddressForm
+					bind:addressFields={addressFields.addressHome}
+					countryRequired={homeCountryRequired}
+					prefix="home"
+				/>
 			</div>
 
 			<!-- Billing Address -->
@@ -407,71 +282,11 @@
 				aria-labelledby="pills-billing-tab"
 				tabindex="0"
 			>
-				<div class="row mt-5">
-					<div class="col-md-4">
-						<label for="inputBuildingBilling" class="form-label">Building</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputBuildingBilling"
-							maxlength="255"
-							bind:value={addressFields.addressBilling.building}
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="inputStreetBilling" class="form-label">Street</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputStreetBilling"
-							maxlength="255"
-							bind:value={addressFields.addressBilling.street}
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="inputPostcodeBilling" class="form-label">Postcode</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputPostcodeBilling"
-							maxlength="8"
-							bind:value={addressFields.addressBilling.postcode}
-						/>
-					</div>
-
-					<div class="row mt-4">
-						<div class="col-md-4">
-							<label for="inputCityBilling" class="form-label">City</label>
-							<input
-								type="text"
-								class="form-control"
-								id="inputCityBilling"
-								maxlength="255"
-								bind:value={addressFields.addressBilling.city}
-							/>
-						</div>
-
-						<div class="col-md-4">
-							<label for="inputCountryBilling" class="form-label">Country</label>
-							<select
-								id="inputCountryBilling"
-								class="form-select"
-								required={billingCountryRequired}
-								bind:value={addressFields.addressBilling.country}
-							>
-								<option value="" disabled selected>Select a country</option>
-								<option value="GB">GB</option>
-								<option value="CZ">CZ</option>
-								<option value="FR">FR</option>
-								<option value="DE">DE</option>
-								<option value="AT">AT</option>
-								<option value="" hidden={billingCountryRequired}>none</option>
-							</select>
-						</div>
-					</div>
-				</div>
+				<AddressForm
+					bind:addressFields={addressFields.addressBilling}
+					countryRequired={billingCountryRequired}
+					prefix="billing"
+				/>
 			</div>
 
 			<!-- Postal Address -->
@@ -482,72 +297,14 @@
 				aria-labelledby="pills-postal-tab"
 				tabindex="0"
 			>
-				<div class="row mt-5">
-					<div class="col-md-4">
-						<label for="inputBuildingPostal" class="form-label">Building</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputBuildingPostal"
-							maxlength="255"
-							bind:value={addressFields.addressPostal.building}
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="inputStreetPostal" class="form-label">Street</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputStreetPostal"
-							maxlength="255"
-							bind:value={addressFields.addressPostal.street}
-						/>
-					</div>
-
-					<div class="col-md-4">
-						<label for="inputPostcodePostal" class="form-label">Postcode</label>
-						<input
-							type="text"
-							class="form-control"
-							id="inputPostcodePostal"
-							maxlength="8"
-							bind:value={addressFields.addressPostal.postcode}
-						/>
-					</div>
-
-					<div class="row mt-4">
-						<div class="col-md-4">
-							<label for="inputCityPostal" class="form-label">City</label>
-							<input
-								type="text"
-								class="form-control"
-								id="inputCityPostal"
-								maxlength="255"
-								bind:value={addressFields.addressPostal.city}
-							/>
-						</div>
-
-						<div class="col-md-4">
-							<label for="inputCountryPostal" class="form-label">Country</label>
-							<select
-								id="inputCountryPostal"
-								class="form-select"
-								required={postalCountryRequired}
-								bind:value={addressFields.addressPostal.country}
-							>
-								<option value="" disabled selected>Select a country</option>
-								<option value="GB">GB</option>
-								<option value="CZ">CZ</option>
-								<option value="FR">FR</option>
-								<option value="DE">DE</option>
-								<option value="AT">AT</option>
-								<option value="" hidden={postalCountryRequired}>none</option>
-							</select>
-						</div>
-					</div>
-				</div>
+				<AddressForm
+					bind:addressFields={addressFields.addressPostal}
+					countryRequired={postalCountryRequired}
+					prefix="postal"
+				/>
 			</div>
+
+			<!-- Bottom Buttons -->
 			<div class="row mb-4 mt-5 justify-content-center">
 				<div class="col-2 text-center">
 					<a href="/" class="btn btn-secondary">Cancel</a>
