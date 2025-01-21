@@ -4,15 +4,23 @@
 	import { goto } from '$app/navigation';
 	import AddressForm from '$components/AddressForm.svelte';
 	import BasicForm from '$components/BasicForm.svelte';
+	import PillNav from '$components/PillNav.svelte';
 
 	let customer = undefined as undefined | CustomerType;
 
-	const emptyAddress = { building: '', country: '', street: '', city: '', postcode: '' };
+	const navTabs = [
+		{ id: 'pills-basic-tab', label: 'Basic Info', target: '#pills-basic', active: true },
+		{ id: 'pills-home-tab', label: 'Home Address', target: '#pills-home' },
+		{ id: 'pills-billing-tab', label: 'Billing Address', target: '#pills-billing' },
+		{ id: 'pills-postal-tab', label: 'Postal Address', target: '#pills-postal' }
+	];
 
 	//basic info fields
 	let basicFields = { firstName: '', lastName: '', email: '', phone: '', dateOfBirth: '' };
 
 	//address fields
+	const emptyAddress = { building: '', country: '', street: '', city: '', postcode: '' };
+
 	let addressFields = {
 		addressHome: { ...emptyAddress },
 		addressPostal: { ...emptyAddress },
@@ -145,7 +153,7 @@
 		if (addressFields.addressBilling.country) {
 			formattedCustomer.addressBilling = addressFields.addressBilling;
 		} else {
-			formattedCustomer.addressHome = null;
+			formattedCustomer.addressBilling = null;
 		}
 
 		return formattedCustomer;
@@ -154,7 +162,6 @@
 	//handles form submission
 	const handleSubmit = async () => {
 		let editedCustomer = formatCustomer();
-		console.log(editedCustomer);
 		try {
 			const response = await fetch(
 				`${import.meta.env.VITE_API_URL}/customers/${$page.params.id}`,
@@ -185,61 +192,7 @@
 		<h2>Customer Edit</h2>
 	</div>
 
-	<div class="mb-3 border rounded">
-		<ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link active"
-					id="pills-basic-tab"
-					data-bs-toggle="pill"
-					data-bs-target="#pills-basic"
-					type="button"
-					role="tab"
-					aria-controls="pills-basic"
-					aria-selected="true">Basic Info</button
-				>
-			</li>
-
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					id="pills-home-tab"
-					data-bs-toggle="pill"
-					data-bs-target="#pills-home, #pills-home-none"
-					type="button"
-					role="tab"
-					aria-controls="pills-home"
-					aria-selected="true">Home Address</button
-				>
-			</li>
-
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					id="pills-billing-tab"
-					data-bs-toggle="pill"
-					data-bs-target="#pills-billing, #pills-billing-none"
-					type="button"
-					role="tab"
-					aria-controls="pills-billing"
-					aria-selected="true">Billing Address</button
-				>
-			</li>
-
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					id="pills-postal-tab"
-					data-bs-toggle="pill"
-					data-bs-target="#pills-postal, #pills-postal-none"
-					type="button"
-					role="tab"
-					aria-controls="pills-postal"
-					aria-selected="true">Postal Address</button
-				>
-			</li>
-		</ul>
-	</div>
+	<PillNav tabs={navTabs} />
 
 	{#if customer}
 		<form
