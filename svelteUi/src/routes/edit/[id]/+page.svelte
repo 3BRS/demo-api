@@ -238,6 +238,7 @@
 							type="text"
 							id="firstName"
 							class="form-control"
+							maxlength="255"
 							bind:value={basicFields.firstName}
 							required
 						/>
@@ -249,19 +250,21 @@
 							type="text"
 							id="lastName"
 							class="form-control"
-							required
+							maxlength="255"
 							bind:value={basicFields.lastName}
+							required
 						/>
 					</div>
 
 					<div class="col-md-4">
 						<label for="email" class="form-label">Email</label>
 						<input
-							type="text"
+							type="email"
 							id="email"
 							class="form-control"
-							required
+							maxlength="255"
 							bind:value={basicFields.email}
+							required
 						/>
 					</div>
 
@@ -272,8 +275,9 @@
 								type="text"
 								id="phone"
 								class="form-control"
-								required
+								maxlength="255"
 								bind:value={basicFields.phone}
+								required
 							/>
 						</div>
 
@@ -283,8 +287,8 @@
 								type="date"
 								id="dateOfBirth"
 								class="form-control"
-								required
 								bind:value={basicFields.dateOfBirth}
+								required
 							/>
 						</div>
 					</div>
@@ -306,6 +310,7 @@
 							type="text"
 							class="form-control"
 							id="inputBuildingHome"
+							maxlength="255"
 							bind:value={addressFields.addressHome.building}
 						/>
 					</div>
@@ -316,6 +321,7 @@
 							type="text"
 							class="form-control"
 							id="inputStreetHome"
+							maxlength="255"
 							bind:value={addressFields.addressHome.street}
 						/>
 					</div>
@@ -326,6 +332,7 @@
 							type="text"
 							class="form-control"
 							id="inputPostcodeHome"
+							maxlength="8"
 							bind:value={addressFields.addressHome.postcode}
 						/>
 					</div>
@@ -337,6 +344,7 @@
 								type="text"
 								class="form-control"
 								id="inputCityHome"
+								maxlength="255"
 								bind:value={addressFields.addressHome.city}
 							/>
 						</div>
@@ -376,6 +384,7 @@
 							type="text"
 							class="form-control"
 							id="inputBuildingBilling"
+							maxlength="255"
 							bind:value={addressFields.addressBilling.building}
 						/>
 					</div>
@@ -386,6 +395,7 @@
 							type="text"
 							class="form-control"
 							id="inputStreetBilling"
+							maxlength="255"
 							bind:value={addressFields.addressBilling.street}
 						/>
 					</div>
@@ -396,6 +406,7 @@
 							type="text"
 							class="form-control"
 							id="inputPostcodeBilling"
+							maxlength="8"
 							bind:value={addressFields.addressBilling.postcode}
 						/>
 					</div>
@@ -407,6 +418,7 @@
 								type="text"
 								class="form-control"
 								id="inputCityBilling"
+								maxlength="255"
 								bind:value={addressFields.addressBilling.city}
 							/>
 						</div>
@@ -446,6 +458,7 @@
 							type="text"
 							class="form-control"
 							id="inputBuildingPostal"
+							maxlength="255"
 							bind:value={addressFields.addressPostal.building}
 						/>
 					</div>
@@ -456,6 +469,7 @@
 							type="text"
 							class="form-control"
 							id="inputStreetPostal"
+							maxlength="255"
 							bind:value={addressFields.addressPostal.street}
 						/>
 					</div>
@@ -466,6 +480,7 @@
 							type="text"
 							class="form-control"
 							id="inputPostcodePostal"
+							maxlength="8"
 							bind:value={addressFields.addressPostal.postcode}
 						/>
 					</div>
@@ -477,6 +492,7 @@
 								type="text"
 								class="form-control"
 								id="inputCityPostal"
+								maxlength="255"
 								bind:value={addressFields.addressPostal.city}
 							/>
 						</div>

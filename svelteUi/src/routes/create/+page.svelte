@@ -66,7 +66,7 @@
 				/>
 			</div>
 
-			<label for="phone" class="form-label">Phone:</label>
+			<label for="phone" class="form-label">Phone</label>
 			<div class="input-group mb-3">
 				<span class="input-group-text"><i class="bi bi-telephone" /></span>
 				<input
@@ -79,7 +79,7 @@
 			</div>
 
 			<div class="mb-3">
-				<label for="dateOfBirth" class="form-label">Date of Birth:</label>
+				<label for="dateOfBirth" class="form-label">Date of Birth</label>
 				<input
 					type="date"
 					id="dateOfBirth"
