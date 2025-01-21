@@ -35,7 +35,17 @@
 			<h6>Loading</h6>
 		</div>
 	{:else if Array.isArray(customers) && customers.length === 0}
-		<p>No customers found</p>
+		<div
+			class="mt-5 justify-content-center align-items-center text-center"
+			id="pills-home-none"
+			role="tabpanel"
+			aria-labelledby="pills-home-tab"
+			tabindex="0"
+		>
+			<i class="bi bi-person-fill-slash display-1" />
+			<p class="mt-2 fs-4 text-secondary">No Customers Found</p>
+			<a href={'/create'} class="btn btn-sm btn-success mt-3">Add Customer</a>
+		</div>
 	{:else}
 		<div class="table-responsive">
 			<table class="table">
@@ -44,8 +54,8 @@
 						<th scope="col">Name</th>
 						<th scope="col">Email</th>
 						<th class="text-center">
-                            <a href={'/create'} class="btn btn-sm btn-success">Add Customer</a>
-                        </th>
+							<a href={'/create'} class="btn btn-sm btn-success">Add Customer</a>
+						</th>
 					</tr>
 				</thead>
 
@@ -69,16 +79,17 @@
 				</tbody>
 
 				<tfoot>
-                    <tr>
-                        <td colspan="6" class="text-center">
-                            Total Customers: { customers.length }
-                        </td>
-                    </tr>
-                </tfoot>
+					<tr>
+						<td colspan="6" class="text-center">
+							Total Customers: {customers.length}
+						</td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	{/if}
 </div>
 
 <style lang="sass">
+
 </style>
