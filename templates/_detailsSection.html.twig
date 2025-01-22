@@ -1,0 +1,14 @@
+<h3 class="mt-4">
+    <i class="bi {{ icon }}"></i>
+    {{ title }}
+</h3>
+
+<div class="row mt-4">
+    {% for field in fields %}
+        <div class="col-md-4 pb-4">
+            <h6>{{ field.label }}</h6>
+            <p class="text-break">{{ field.value }}</p>
+    </div>
+    {% endfor %}
+</div>
+<hr class="mb-4">

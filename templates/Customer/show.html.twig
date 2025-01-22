@@ -12,154 +12,66 @@ Customer Details
 <div class="container">
 
     {#Basic Information Section#}
-    <h3>
-        <i class="bi bi-person-fill"></i>
-        Basic Information
-    </h3>
-
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <h6>First Name</h6>
-            <p class="text-break">{{customer.firstName}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Last Name</h6>
-            <p class="text-break">{{customer.lastName}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Date of Birth</h6>
-            {{ customer.dateOfBirth|date('Y-m-d') }}
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <h6>Email</h6>
-            <p class="text-break">{{customer.email}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Phone Number</h6>
-            {{customer.phone}}
-        </div>
-    </div>
-    <hr class="my-4">
+    {% include './_detailsSection.html.twig' with {
+        'title': 'Basic Information',
+        'icon': 'bi-person-fill',
+        'fields': [
+            {'label': 'First Name', 'value': customer.firstName},
+            {'label': 'Last Name', 'value': customer.lastName},
+            {'label': 'Date of Birth', 'value': customer.dateOfBirth|date('Y-m-d')},
+            {'label': 'Email', 'value': customer.email},
+            {'label': 'Phone Number', 'value': customer.phone}
+        ]
+    } only %}
 
     {#Home Address Section#}
     {% if customer.addressHome %}
-    <h3 class="mt-4">
-        <i class="bi bi-house-door-fill"></i>
-        Home Address
-    </h3>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <h6>Building</h6>
-            <p class="text-break">{{customer.addressHome.building | default('N/A')}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Street</h6>
-            <p class="text-break">{{customer.addressHome.street | default('N/A')}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Postcode</h6>
-            <p class="text-break">{{customer.addressHome.postcode | default('N/A')}}</p>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <h6>City</h6>
-                <p class="text-break">{{customer.addressHome.city | default('N/A')}}</p>
-            </div>
-
-            <div class="col-md-4">
-                <h6>Country</h6>
-                <p class="text-break">{{customer.addressHome.country.name| default('N/A')}}</p>
-            </div>
-        </div>
-    </div>
-    <hr class="my-4">
+        {% include './_detailsSection.html.twig' with {
+            'title': 'Home Address',
+            'icon': 'bi-house-door-fill',
+            'fields': [
+               {'label': 'Building', 'value': customer.addressHome.building|default('N/A')},
+                {'label': 'Street', 'value': customer.addressHome.street|default('N/A')},
+                {'label': 'Postcode', 'value': customer.addressHome.postcode|default('N/A')},
+               {'label': 'City', 'value': customer.addressHome.city|default('N/A')},
+               {'label': 'Country', 'value': customer.addressHome.country.name|default('N/A')}
+         ]
+        } only %}
     {% endif %}
 
     {#Postal Address Section#}
     {% if customer.addressPostal %}
-    <h3 class="mt-4">
-        <i class="bi bi-mailbox2-flag"></i>
-        Postal Address
-    </h3>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <h6>Building</h6>
-            <p class="text-break">{{customer.addressPostal.building | default('N/A')}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Street</h6>
-            <p class="text-break">{{customer.addressPostal.street | default('N/A')}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Postcode</h6>
-            <p class="text-break">{{customer.addressPostal.postcode | default('N/A')}}</p>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <h6>City</h6>
-                <p class="text-break">{{customer.addressPostal.city | default('N/A')}}</p>
-            </div>
-
-            <div class="col-md-4">
-                <h6>Country</h6>
-                <p class="text-break">{{customer.addressPostal.country.name| default('N/A')}}</p>
-            </div>
-        </div>
-    </div>
-    <hr class="my-4">
+        {% include './_detailsSection.html.twig' with {
+            'title': 'Postal Address',
+            'icon': 'bi-mailbox2-flag',
+            'fields': [
+                {'label': 'Building', 'value': customer.addressPostal.building|default('N/A')},
+                {'label': 'Street', 'value': customer.addressPostal.street|default('N/A')},
+                {'label': 'Postcode', 'value': customer.addressPostal.postcode|default('N/A')},
+                {'label': 'City', 'value': customer.addressPostal.city|default('N/A')},
+                {'label': 'Country', 'value': customer.addressPostal.country.name|default('N/A')}
+        ]
+        } only %}
     {% endif %}
 
     {#Billing Address Section#}
     {% if customer.addressBilling %}
-    <h3 class="mt-4">
-        <i class="bi bi-receipt"></i>
-        Billing Address
-    </h3>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <h6>Building</h6>
-            <p class="text-break">{{customer.addressBilling.building | default('N/A')}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Street</h6>
-            <p class="text-break">{{customer.addressBilling.street | default('N/A')}}</p>
-        </div>
-
-        <div class="col-md-4">
-            <h6>Postcode</h6>
-            <p class="text-break">{{customer.addressBilling.postcode | default('N/A')}}</p>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <h6>City</h6>
-                <p class="text-break">{{customer.addressBilling.city | default('N/A')}}</p>
-            </div>
-
-            <div class="col-md-4">
-                <h6>Country</h6>
-                <p class="text-break">{{customer.addressBilling.country.name| default('N/A')}}</p>
-            </div>
-        </div>
-    </div>
-    <hr class="my-4">
+        {% include './_detailsSection.html.twig' with {
+            'title': 'Billing Address',
+            'icon': 'bi-receipt',
+            'fields': [
+                {'label': 'Building', 'value': customer.addressBilling.building|default('N/A')},
+                {'label': 'Street', 'value': customer.addressBilling.street|default('N/A')},
+                {'label': 'Postcode', 'value': customer.addressBilling.postcode|default('N/A')},
+                {'label': 'City', 'value': customer.addressBilling.city|default('N/A')},
+                {'label': 'Country', 'value': customer.addressBilling.country.name|default('N/A')}
+            ]
+        } only %}
     {% endif %}
+
     <div class="row mb-4 mt-5 justify-content-center">
         <div class="col-4 text-center d-grid gap-2">
-            <a href="/" class="btn btn-secondary">Back</a>
+            <a href="{{ path('customers_index') }}" class="btn btn-secondary">Back</a>
         </div>
     </div>
 </div>
