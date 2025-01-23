@@ -17,3 +17,11 @@ interface CustomerAddressType {
 	city?: string;
 	postcode?: string;
 }
+
+interface CustomerBasicInfoType {
+	firstName: string;
+	lastName: string;
+	email: string;
+	phone: string;
+	dateOfBirth: string;
+}

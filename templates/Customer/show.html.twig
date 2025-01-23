@@ -1,5 +1,78 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+Customer Details
+{% endblock %}
+
 {% block body %}
-    {{ dump(customer) }}
+<div class="py-5 text-center">
+    <h2>Customer Details</h2>
+</div>
+
+<div class="container">
+
+    {#Basic Information Section#}
+    {% include './_detailsSection.html.twig' with {
+        'title': 'Basic Information',
+        'icon': 'bi-person-fill',
+        'fields': [
+            {'label': 'First Name', 'value': customer.firstName},
+            {'label': 'Last Name', 'value': customer.lastName},
+            {'label': 'Date of Birth', 'value': customer.dateOfBirth|date('Y-m-d')},
+            {'label': 'Email', 'value': customer.email},
+            {'label': 'Phone Number', 'value': customer.phone}
+        ]
+    } only %}
+
+    {#Home Address Section#}
+    {% if customer.addressHome %}
+        {% include './_detailsSection.html.twig' with {
+            'title': 'Home Address',
+            'icon': 'bi-house-door-fill',
+            'fields': [
+               {'label': 'Building', 'value': customer.addressHome.building|default('N/A')},
+                {'label': 'Street', 'value': customer.addressHome.street|default('N/A')},
+                {'label': 'Postcode', 'value': customer.addressHome.postcode|default('N/A')},
+               {'label': 'City', 'value': customer.addressHome.city|default('N/A')},
+               {'label': 'Country', 'value': customer.addressHome.country.name|default('N/A')}
+         ]
+        } only %}
+    {% endif %}
+
+    {#Postal Address Section#}
+    {% if customer.addressPostal %}
+        {% include './_detailsSection.html.twig' with {
+            'title': 'Postal Address',
+            'icon': 'bi-mailbox2-flag',
+            'fields': [
+                {'label': 'Building', 'value': customer.addressPostal.building|default('N/A')},
+                {'label': 'Street', 'value': customer.addressPostal.street|default('N/A')},
+                {'label': 'Postcode', 'value': customer.addressPostal.postcode|default('N/A')},
+                {'label': 'City', 'value': customer.addressPostal.city|default('N/A')},
+                {'label': 'Country', 'value': customer.addressPostal.country.name|default('N/A')}
+        ]
+        } only %}
+    {% endif %}
+
+    {#Billing Address Section#}
+    {% if customer.addressBilling %}
+        {% include './_detailsSection.html.twig' with {
+            'title': 'Billing Address',
+            'icon': 'bi-receipt',
+            'fields': [
+                {'label': 'Building', 'value': customer.addressBilling.building|default('N/A')},
+                {'label': 'Street', 'value': customer.addressBilling.street|default('N/A')},
+                {'label': 'Postcode', 'value': customer.addressBilling.postcode|default('N/A')},
+                {'label': 'City', 'value': customer.addressBilling.city|default('N/A')},
+                {'label': 'Country', 'value': customer.addressBilling.country.name|default('N/A')}
+            ]
+        } only %}
+    {% endif %}
+
+    <div class="row mb-4 mt-5 justify-content-center">
+        <div class="col-4 text-center d-grid gap-2">
+            <a href="{{ path('customers_index') }}" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

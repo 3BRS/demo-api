@@ -1,5 +1,69 @@
 {% extends 'base.html.twig' %}
 
+{#Applying Bootstrap to forms in this template only#}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+{% block title %}
+    New Customer
+{% endblock %}
+
 {% block body %}
-    {{ form(form) }}
+    <div class="container">
+        <div class="pt-5 text-center">
+            <h3>Add Customer</h3>
+        </div>
+        <div class="row justify-content-center my-5">
+            <div class="col-lg-6">
+                {{ form_start(form) }}
+                    {{form_row(form.firstName, {
+                        label: 'First Name:',
+                        label_attr: {
+                            class: 'form-label'
+                        },
+                    })}}
+    
+                    {{form_row(form.lastName, {
+                        label: 'Last Name:',
+                        label_attr: {
+                            class: 'form-label'
+                        },
+                    })}}
+                    
+                    <label for="{{ form.email.vars.id }}" class="form-label">Email:</label>
+                    <div class="mb-4 input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-envelope"></i> 
+                        </span>
+                        {{ form_widget(form.email, { attr: { class: 'form-control' } }) }}
+                        {{ form_errors(form.email) }}    
+                    </div>
+
+                    <label for="{{ form.phone.vars.id }}" class="form-label">Phone Number:</label>
+                    <div class="mb-4 input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-telephone"></i>
+                        </span>
+                        {{ form_widget(form.phone, { attr: { class: 'form-control' } }) }}
+                        {{ form_errors(form.phone) }}   
+                    </div>
+    
+                    {{form_row(form.dateOfBirth, {
+                        label: 'Date of Birth:',
+                        label_attr: {
+                            class: 'form-label'
+                        },
+                    })}}
+
+                    <div class="mb-4 mt-5 text-center">
+                        {{form_row(form.submit, {
+                            label: 'Add Customer',
+                            attr: {
+                                class: 'btn btn-secondary'
+                            }
+                        })}}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
