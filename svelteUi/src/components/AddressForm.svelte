@@ -1,11 +1,5 @@
 <script lang="ts">
-	export let addressFields: {
-		building: string;
-		country: string;
-		street: string;
-		city: string;
-		postcode: string;
-	};
+	export let addressFields: CustomerAddressType;
 	export let countryRequired: boolean;
 	export let prefix: string;
 </script>

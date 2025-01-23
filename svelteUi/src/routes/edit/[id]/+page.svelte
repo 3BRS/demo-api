@@ -6,34 +6,32 @@
 	import BasicForm from '$components/BasicForm.svelte';
 	import PillNav from '$components/PillNav.svelte';
 
-	//type definitions
-	type addressDetails = {
-		building: string;
-		country: string;
-		street: string;
-		city: string;
-		postcode: string;
-	};
 	type addressObject = {
-		addressHome: addressDetails;
-		addressPostal: addressDetails;
-		addressBilling: addressDetails;
+		addressHome: CustomerAddressType;
+		addressPostal: CustomerAddressType;
+		addressBilling: CustomerAddressType;
 	};
 
-	const navTabs = [
+	const navTabs: { id: string; label: string; target: string; active?: boolean }[] = [
 		{ id: 'pills-basic-tab', label: 'Basic Info', target: '#pills-basic', active: true },
 		{ id: 'pills-home-tab', label: 'Home Address', target: '#pills-home' },
 		{ id: 'pills-billing-tab', label: 'Billing Address', target: '#pills-billing' },
 		{ id: 'pills-postal-tab', label: 'Postal Address', target: '#pills-postal' }
 	];
-	
-	let customer = undefined as undefined | CustomerType;
-	//basic info fields
 
-	let basicFields = { firstName: '', lastName: '', email: '', phone: '', dateOfBirth: '' };
+	let customer = undefined as undefined | CustomerType;
+
+	//basic info fields
+	let basicFields: CustomerBasicInfoType = {
+		firstName: '',
+		lastName: '',
+		email: '',
+		phone: '',
+		dateOfBirth: ''
+	};
 
 	//address fields
-	const emptyAddress: addressDetails = {
+	const emptyAddress: CustomerAddressType = {
 		building: '',
 		country: '',
 		street: '',
@@ -47,13 +45,12 @@
 		addressBilling: { ...emptyAddress }
 	};
 
-
 	let isHomeCountryRequired = false;
 	let isPostalCountryRequired = false;
 	let isBillingCountryRequired = false;
 
 	//checks if any field other than country is non-empty
-	const isAddressRequired = (fields: addressDetails): boolean => {
+	const isAddressRequired = (fields: CustomerAddressType): boolean => {
 		return Object.entries(fields)
 			.filter(([key]) => key !== 'country')
 			.some(([, value]) => value.trim() !== '');
@@ -62,10 +59,10 @@
 	//update required status based on other fields
 	$: isHomeCountryRequired = isAddressRequired(addressFields.addressHome);
 	$: isPostalCountryRequired = isAddressRequired(addressFields.addressPostal);
-	$: isBillingCountryRequired = isAddressRequired(addressFields.addressHome);
+	$: isBillingCountryRequired = isAddressRequired(addressFields.addressBilling);
 
 	//prefills address fields
-	const prefillAddress = (fields: addressDetails, customerAddress: CustomerAddressType) => {
+	const prefillAddress = (fields: CustomerAddressType, customerAddress: CustomerAddressType) => {
 		if (customer) {
 			fields.building = customerAddress.building || '';
 			fields.street = customerAddress.street || '';
@@ -121,27 +118,9 @@
 			email: string;
 			phone: string;
 			dateOfBirth: string;
-			addressHome?: {
-				building?: string;
-				country: string;
-				street?: string;
-				city?: string;
-				postcode?: string;
-			} | null;
-			addressPostal?: {
-				building?: string;
-				country: string;
-				street?: string;
-				city?: string;
-				postcode?: string;
-			} | null;
-			addressBilling?: {
-				building?: string;
-				country: string;
-				street?: string;
-				city?: string;
-				postcode?: string;
-			} | null;
+			addressHome?: CustomerAddressType | null;
+			addressPostal?: CustomerAddressType | null;
+			addressBilling?: CustomerAddressType | null;
 		};
 
 		formattedCustomer = { ...basicFields };

@@ -15,8 +15,8 @@
 		}).then((response) => {
 			response.json().then((data) => {
 				customers = data.member;
-				totalCustomers = data.totalItems
-				maxPage = Math.ceil( totalCustomers / customersPerPage);
+				totalCustomers = data.totalItems;
+				maxPage = Math.ceil(totalCustomers / customersPerPage);
 			});
 		});
 	};

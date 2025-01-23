@@ -1,5 +1,11 @@
 <script lang="ts">
-	let fields = { firstName: '', lastName: '', email: '', phone: '', dateOfBirth: '' };
+	let fields: CustomerBasicInfoType = {
+		firstName: '',
+		lastName: '',
+		email: '',
+		phone: '',
+		dateOfBirth: ''
+	};
 
 	//Handles POST request
 	const handleSubmit = async () => {
