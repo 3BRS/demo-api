@@ -6,7 +6,7 @@
 
 	let customer = undefined as undefined | CustomerType;
 
-	const navTabs = [
+	const navTabs: { id: string; label: string; target: string; active?: boolean }[] = [
 		{ id: 'pills-basic-tab', label: 'Basic Info', target: '#pills-basic', active: true },
 		{ id: 'pills-home-tab', label: 'Home Address', target: '#pills-home, #pills-home-none' },
 		{
@@ -102,74 +102,19 @@
 				</div>
 			</div>
 
-			{#if customer.addressHome}
-				<div
-					class="tab-pane fade"
-					id="pills-home"
-					role="tabpanel"
-					aria-labelledby="pills-home-tab"
-					tabindex="0"
-				>
-					<AddressDetail address={customer.addressHome} title="Home address" />
-				</div>
-			{:else}
-				<div
-					class="mt-5 justify-content-center align-items-center text-center tab-pane fade"
-					id="pills-home-none"
-					role="tabpanel"
-					aria-labelledby="pills-home-tab"
-					tabindex="0"
-				>
-					<i class="bi bi-house-x-fill display-1" />
-					<p class="mt-3 fs-4 text-secondary">No Address Found</p>
-				</div>
-			{/if}
+			<AddressDetail address={customer.addressHome} title="Home address" id="pills-home" />
 
-			{#if customer.addressBilling}
-				<div
-					class="tab-pane fade"
-					id="pills-billing"
-					role="tabpanel"
-					aria-labelledby="pills-billing-tab"
-					tabindex="0"
-				>
-					<AddressDetail address={customer.addressBilling} title="Billing address" />
-				</div>
-			{:else}
-				<div
-					class="mt-5 justify-content-center align-items-center text-center tab-pane fade"
-					id="pills-billing-none"
-					role="tabpanel"
-					aria-labelledby="pills-billing-tab"
-					tabindex="0"
-				>
-					<i class="bi bi-house-x-fill display-1" />
-					<p class="mt-3 fs-4 text-secondary">No Address Found</p>
-				</div>
-			{/if}
+			<AddressDetail
+				address={customer.addressBilling}
+				title="Billing address"
+				id="pills-billing"
+			/>
 
-			{#if customer.addressPostal}
-				<div
-					class="tab-pane fade"
-					id="pills-postal"
-					role="tabpanel"
-					aria-labelledby="pills-postal-tab"
-					tabindex="0"
-				>
-					<AddressDetail address={customer.addressPostal} title="Postal address" />
-				</div>
-			{:else}
-				<div
-					class="mt-5 justify-content-center align-items-center text-center tab-pane fade"
-					id="pills-postal-none"
-					role="tabpanel"
-					aria-labelledby="pills-postal-tab"
-					tabindex="0"
-				>
-					<i class="bi bi-house-x-fill display-1" />
-					<p class="mt-3 fs-4 text-secondary">No Address Found</p>
-				</div>
-			{/if}
+			<AddressDetail
+				address={customer.addressPostal}
+				title="Postal address"
+				id="pills-postal"
+			/>
 		</div>
 	{/if}
 

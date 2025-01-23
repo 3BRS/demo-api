@@ -3,14 +3,31 @@
 
 	let customers = undefined as undefined | any[];
 
-	onMount(() => {
-		fetch(`${import.meta.env.VITE_API_URL}/customers?page=1`, {
+	let currentPage = 1;
+	let customersPerPage = 30; // default value
+	let maxPage = 1; //highest page number
+	let totalCustomers = 0;
+
+	//fetches content of current page
+	const getPageContent = () => {
+		fetch(`${import.meta.env.VITE_API_URL}/customers?page=${currentPage}`, {
 			method: 'GET'
 		}).then((response) => {
 			response.json().then((data) => {
 				customers = data.member;
+				totalCustomers = data.totalItems
+				maxPage = Math.ceil( totalCustomers / customersPerPage);
 			});
 		});
+	};
+
+	const setPage = (newPage: number) => {
+		currentPage = newPage;
+		getPageContent();
+	};
+
+	onMount(() => {
+		getPageContent();
 	});
 </script>
 
@@ -85,8 +102,28 @@
 
 				<tfoot>
 					<tr>
-						<td colspan="6" class="text-center">
-							Total Customers: {customers.length}
+						<td class="text-start text-muted">
+							Total Customers: {totalCustomers}
+						</td>
+						<td class="text-end">
+							<button
+								type="button"
+								class="btn btn-primary"
+								disabled={currentPage === 1}
+								on:click={() => setPage(currentPage - 1)}
+							>
+								Previous
+							</button>
+						</td>
+						<td class="text-start">
+							<button
+								type="button"
+								class="btn btn-primary"
+								disabled={currentPage >= maxPage}
+								on:click={() => setPage(currentPage + 1)}
+							>
+								Next
+							</button>
 						</td>
 					</tr>
 				</tfoot>

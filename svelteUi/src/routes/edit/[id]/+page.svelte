@@ -6,7 +6,19 @@
 	import BasicForm from '$components/BasicForm.svelte';
 	import PillNav from '$components/PillNav.svelte';
 
-	let customer = undefined as undefined | CustomerType;
+	//type definitions
+	type addressDetails = {
+		building: string;
+		country: string;
+		street: string;
+		city: string;
+		postcode: string;
+	};
+	type addressObject = {
+		addressHome: addressDetails;
+		addressPostal: addressDetails;
+		addressBilling: addressDetails;
+	};
 
 	const navTabs = [
 		{ id: 'pills-basic-tab', label: 'Basic Info', target: '#pills-basic', active: true },
@@ -14,41 +26,54 @@
 		{ id: 'pills-billing-tab', label: 'Billing Address', target: '#pills-billing' },
 		{ id: 'pills-postal-tab', label: 'Postal Address', target: '#pills-postal' }
 	];
-
+	
+	let customer = undefined as undefined | CustomerType;
 	//basic info fields
+
 	let basicFields = { firstName: '', lastName: '', email: '', phone: '', dateOfBirth: '' };
 
 	//address fields
-	const emptyAddress = { building: '', country: '', street: '', city: '', postcode: '' };
+	const emptyAddress: addressDetails = {
+		building: '',
+		country: '',
+		street: '',
+		city: '',
+		postcode: ''
+	};
 
-	let addressFields = {
+	let addressFields: addressObject = {
 		addressHome: { ...emptyAddress },
 		addressPostal: { ...emptyAddress },
 		addressBilling: { ...emptyAddress }
 	};
 
-	let homeCountryRequired = false;
-	let postalCountryRequired = false;
-	let billingCountryRequired = false;
+
+	let isHomeCountryRequired = false;
+	let isPostalCountryRequired = false;
+	let isBillingCountryRequired = false;
+
+	//checks if any field other than country is non-empty
+	const isAddressRequired = (fields: addressDetails): boolean => {
+		return Object.entries(fields)
+			.filter(([key]) => key !== 'country')
+			.some(([, value]) => value.trim() !== '');
+	};
 
 	//update required status based on other fields
-	$: homeCountryRequired =
-		addressFields.addressHome.building.trim() != '' ||
-		addressFields.addressHome.street.trim() != '' ||
-		addressFields.addressHome.city.trim() != '' ||
-		addressFields.addressHome.postcode.trim() != '';
+	$: isHomeCountryRequired = isAddressRequired(addressFields.addressHome);
+	$: isPostalCountryRequired = isAddressRequired(addressFields.addressPostal);
+	$: isBillingCountryRequired = isAddressRequired(addressFields.addressHome);
 
-	$: postalCountryRequired =
-		addressFields.addressPostal.building.trim() != '' ||
-		addressFields.addressPostal.street.trim() != '' ||
-		addressFields.addressPostal.city.trim() != '' ||
-		addressFields.addressPostal.postcode.trim() != '';
-
-	$: billingCountryRequired =
-		addressFields.addressBilling.building.trim() != '' ||
-		addressFields.addressBilling.street.trim() != '' ||
-		addressFields.addressBilling.city.trim() != '' ||
-		addressFields.addressBilling.postcode.trim() != '';
+	//prefills address fields
+	const prefillAddress = (fields: addressDetails, customerAddress: CustomerAddressType) => {
+		if (customer) {
+			fields.building = customerAddress.building || '';
+			fields.street = customerAddress.street || '';
+			fields.postcode = customerAddress.postcode || '';
+			fields.city = customerAddress.city || '';
+			fields.country = customerAddress.country || '';
+		}
+	};
 
 	onMount(() => {
 		fetch(`${import.meta.env.VITE_API_URL}/customers/${$page.params.id}`, {
@@ -73,32 +98,15 @@
 
 					//prefill address fields if they exist
 					if (customer.addressHome) {
-						addressFields.addressHome.building = customer.addressHome.building || '';
-						addressFields.addressHome.street = customer.addressHome.street || '';
-						addressFields.addressHome.postcode = customer.addressHome.postcode || '';
-						addressFields.addressHome.city = customer.addressHome.city || '';
-						addressFields.addressHome.country = customer.addressHome.country || '';
+						prefillAddress(addressFields.addressHome, customer.addressHome);
 					}
 
 					if (customer.addressBilling) {
-						addressFields.addressBilling.building =
-							customer.addressBilling.building || '';
-						addressFields.addressBilling.street = customer.addressBilling.street || '';
-						addressFields.addressBilling.postcode =
-							customer.addressBilling.postcode || '';
-						addressFields.addressBilling.city = customer.addressBilling.city || '';
-						addressFields.addressBilling.country =
-							customer.addressBilling.country || '';
+						prefillAddress(addressFields.addressBilling, customer.addressBilling);
 					}
 
 					if (customer.addressPostal) {
-						addressFields.addressPostal.building =
-							customer.addressPostal.building || '';
-						addressFields.addressPostal.street = customer.addressPostal.street || '';
-						addressFields.addressPostal.postcode =
-							customer.addressPostal.postcode || '';
-						addressFields.addressPostal.city = customer.addressPostal.city || '';
-						addressFields.addressPostal.country = customer.addressPostal.country || '';
+						prefillAddress(addressFields.addressPostal, customer.addressPostal);
 					}
 				}
 			});
@@ -222,7 +230,7 @@
 			>
 				<AddressForm
 					bind:addressFields={addressFields.addressHome}
-					countryRequired={homeCountryRequired}
+					countryRequired={isHomeCountryRequired}
 					prefix="home"
 				/>
 			</div>
@@ -237,7 +245,7 @@
 			>
 				<AddressForm
 					bind:addressFields={addressFields.addressBilling}
-					countryRequired={billingCountryRequired}
+					countryRequired={isBillingCountryRequired}
 					prefix="billing"
 				/>
 			</div>
@@ -252,7 +260,7 @@
 			>
 				<AddressForm
 					bind:addressFields={addressFields.addressPostal}
-					countryRequired={postalCountryRequired}
+					countryRequired={isPostalCountryRequired}
 					prefix="postal"
 				/>
 			</div>

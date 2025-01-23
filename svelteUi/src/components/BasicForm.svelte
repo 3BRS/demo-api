@@ -1,5 +1,11 @@
 <script lang="ts">
-	export let basicFields;
+	export let basicFields: {
+		firstName: string;
+		lastName: string;
+		email: string;
+		phone: string;
+		dateOfBirth: string;
+	};
 </script>
 
 <div class="row mt-5">
