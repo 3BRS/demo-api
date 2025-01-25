@@ -1,7 +1,7 @@
 <script>
 // @ts-nocheck
 
-	import Form from '$components/CreateForm.svelte';
+	import Form from '$components/CreateAndEditForm.svelte';
 	import PopUp from '$components/PopUp.svelte';
     import NavBar from '$components/NavBar.svelte';
 
