@@ -1,30 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
-        <a href="{{ path('customers_new') }}">Create new</a>
+    <div class="container mt-5">
+        <h2 class="mb-4">Customer List</h2>
+        <a href="{{ path('customers_new') }}" class="btn btn-primary mb-3">Create New Customer</a>
+        
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Date of Birth</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.firstName }}</td>
+                            <td>{{ customer.lastName }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td>{{ customer.dateOfBirth|date('Y-m-d') }}</td>
+                            <td>
+                                <a href="{{ path('customers_show', {'id': customer.id}) }}" class="btn btn-info btn-sm">Details</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">No customers found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end mt-3">
+            <strong>Total Customers: {{ customers|length }}</strong>
+        </div>
     </div>
-    <table>
-        {% for customer in customers %}
-            <tr>
-                <td>
-                    {{ customer.firstName }}
-                </td>
-                <td>
-                    {{ customer.lastName }}
-                </td>
-                <td>
-                    {{ customer.email }}
-                </td>
-                <td>
-                    {{ customer.phone }}
-                </td>
-                <td>
-                    {{ customer.dateOfBirth|date('Y-m-d') }}
-                </td>
-            </tr>
-        {% else %}
-            No customers found
-        {% endfor %}
-    </table>
 {% endblock %}

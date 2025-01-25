@@ -1,5 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form(form) }}
+<div class="container mt-5">
+    <h2>Create a New Customer</h2>
+    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+    
+    <div class="mb-3">
+        {{ form_label(form.firstName, 'First Name') }}
+        {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Enter first name'}}) }}
+        {{ form_errors(form.firstName) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.lastName, 'Last Name') }}
+        {{ form_widget(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Enter last name'}}) }}
+        {{ form_errors(form.lastName) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.email, 'Email') }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email'}}) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.phone, 'Phone') }}
+        {{ form_widget(form.phone, {'attr': {'class': 'form-control', 'placeholder': 'Enter phone number'}}) }}
+        {{ form_errors(form.phone) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.dateOfBirth, 'Date of Birth') }}
+        {{ form_widget(form.dateOfBirth, {'attr': {'class': 'form-control', 'placeholder': 'Select date of birth'}}) }}
+        {{ form_errors(form.dateOfBirth) }}
+    </div>
+
+    {# Use Bootstrap button classes to style the submit button #}
+    <div class="col-md-3 mt-4">
+        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-success rounded-pill'}}) }}
+    </div>
+    
+    {{ form_end(form) }}  {# Automatically renders the form's submit button #}
+</div>
 {% endblock %}

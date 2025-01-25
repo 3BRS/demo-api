@@ -34,4 +34,4 @@ services:
 
 volumes:
     pgsql-data: ~
-    rabbitmq-data: ~
+    rabbitmq-data: ~    
