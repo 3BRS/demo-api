@@ -1,4 +1,4 @@
-interface CustomerType extends ApiEntityType {
+ interface CustomerType extends ApiEntityType {
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -10,7 +10,7 @@ interface CustomerType extends ApiEntityType {
 	fullName: string;
 }
 
-interface CustomerAddressType {
+ interface CustomerAddressType {
 	building?: string;
 	country: string;
 	street?: string;

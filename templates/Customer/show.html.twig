@@ -1,5 +1,84 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ dump(customer) }}
+    <div class="container mt-5">
+        <h2 class="mb-4">Customer Details</h2>
+
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th>First Name</th>
+                    <td>{{ customer.firstName }}</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{ customer.lastName }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ customer.email }}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>{{ customer.phone }}</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>{{ customer.dateOfBirth|date('Y-m-d') }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul class="nav nav-tabs" id="addressTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="billing-tab" data-bs-toggle="tab" data-bs-target="#billing" type="button" role="tab" aria-controls="billing" aria-selected="true">
+                    Billing Address
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">
+                    Home Address
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="postal-tab" data-bs-toggle="tab" data-bs-target="#postal" type="button" role="tab" aria-controls="postal" aria-selected="false">
+                    Postal Address
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content mt-4">
+            <div class="tab-pane fade show active" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+                <h5>Billing Address</h5>
+                {% if customer.addressBilling %}
+                    <p>{{ customer.addressBilling.building }}, {{ customer.addressBilling.street }}</p>
+                    <p>{{ customer.addressBilling.city }}, {{ customer.addressBilling.postcode }}</p>
+                    <p>{{ customer.addressBilling.country.value }}</p>
+                {% else %}
+                    <p>No billing address available.</p>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <h5>Home Address</h5>
+                {% if customer.addressHome %}
+                    <p>{{ customer.addressHome.building }}, {{ customer.addressHome.street }}</p>
+                    <p>{{ customer.addressHome.city }}, {{ customer.addressHome.postcode }}</p>
+                    <p>{{ customer.addressHome.country.value}}</p>
+                {% else %}
+                    <p>No home address available.</p>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="postal" role="tabpanel" aria-labelledby="postal-tab">
+                <h5>Postal Address</h5>
+                {% if customer.addressPostal %}
+                    <p>{{ customer.addressPostal.building }}, {{ customer.addressPostal.street }}</p>
+                    <p>{{ customer.addressPostal.city }}, {{ customer.addressPostal.postcode }}</p>
+                    <p>{{ customer.addressPostal.country.value }}</p>
+                {% else %}
+                    <p>No postal address available.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <a href="{{ path('customers_index') }}" class="btn btn-secondary mt-4">Back to List</a>
+    </div>
 {% endblock %}
